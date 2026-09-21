@@ -1,0 +1,91 @@
+<html>
+	<head>
+		<title>
+			Joshua's Progress
+		</title>
+<style>
+body {
+	margin: 0;
+	padding: 0;
+
+	min-height: 100vh;
+
+	font-family: Tahoma, sans-serif;
+	font-size: 16px;
+	line-height: 1.5;
+	color: #222222;
+
+	background-color: #6688ff;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+}
+progress {
+	appearance: none;
+	width: 80%;
+	height: 20px;
+}
+</style>
+	</head>
+	<body>
+		<progress id="jgh-progress"></progress>
+		<div id="current-progress"></div>
+		<div id="next-target"></div>
+<script>
+	// values to earn per item $0.33 / point
+	//   $10,  30: Rocket League Season Pass
+	//   $30,  90: Key Cap Tester
+	//   $60, 180: <unknown>
+	//  $120, 360: M.2 SSD
+	//  $300, 900: Gaming Monitor
+	//
+	// accumulative points to earn
+	//   $10,   30: Rocket League Season Pass
+	//   $30,  120: Key Cap Tester
+	//   $60,  300: <unknown>
+	//  $120,  660: M.2 SSD
+	//  $300, 1560: Gaming Monitor
+	//
+	// 2026-09-20 adjustment for many assignments $0.20 / point
+	//   $10,   50: Rocket League Season Pass
+	//   $30,  150: Key Cap Tester
+	//   $60,  300: <unknown>
+	//  $120,  600: M.2 SSD
+	//  $300, 1500: Gaming Monitor
+	//
+	// 2026-09-20 adjustment accumulative points to earn
+	//   $10,   50: Rocket League Season Pass
+	//   $30,  200: Key Cap Tester
+	//   $60,  500: <unknown>
+	//  $120, 1100: M.2 SSD
+	//  $300, 2600: Gaming Monitor
+
+	// points earned, symbol mask
+	// tracked | completed | turned in on time | no nagging
+	//
+	// 0 1 1 0    2 2026-09-14 History Map
+	// 0 1 1 0    2 2026-09-14 Tech Drawing
+	// 1 1 1 2    5 2026-09-15 History Crash Course
+	// 1 1 1 2    5 2026-09-15 History Unit 2 Vocab
+	// 1 1 1 0    3 2026-09-15 History Map
+	// 1 1 1 2    5 2026-09-15 Tech Activity 2.13
+	// 1 1 1 2    5 2026-09-16 Chem Nuclear Equations
+	// ------>   27 /* intermadiate total */
+	//
+	//         2026-09-17 Chem Half Life Equations
+	//         2026-09-18 Chem Half Life Lab
+	
+	const progressBar=document.getElementById("jgh-progress");
+	progressBar.setAttribute("max",50);
+	progressBar.setAttribute("value",27);
+
+	const currProgress=document.getElementById("current-progress");
+	currProgress.innerHTML="<p>27 of 50</p>";
+
+	const nextReinf=document.getElementById("next-target");
+	nextReinf.innerHTML="<p>Rocket League Season Pass</p>";
+</script>
+	</body>
+</html>
