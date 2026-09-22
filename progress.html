@@ -25,42 +25,28 @@ body {
 progress {
 	appearance: none;
 	width: 80%;
-	height: 20px;
+	height: 30px;
 }
 </style>
 	</head>
 	<body>
 		<progress id="jgh-progress"></progress>
-		<div id="current-progress"></div>
-		<div id="next-target"></div>
+		<p><div id="current-progress"></div></p>
+		<p><div id="next-target"></div></p>
 <script>
 	// values to earn per item $0.33 / point
 	//   $10,  30: Rocket League Season Pass
 	//   $30,  90: Key Cap Tester
-	//   $60, 180: <unknown>
-	//  $120, 360: M.2 SSD
+	//   $30,  90: <unknown>
+	//  $160, 480: M.2 SSD
 	//  $300, 900: Gaming Monitor
 	//
 	// accumulative points to earn
 	//   $10,   30: Rocket League Season Pass
 	//   $30,  120: Key Cap Tester
-	//   $60,  300: <unknown>
-	//  $120,  660: M.2 SSD
-	//  $300, 1560: Gaming Monitor
-	//
-	// 2026-09-20 adjustment for many assignments $0.20 / point
-	//   $10,   50: Rocket League Season Pass
-	//   $30,  150: Key Cap Tester
-	//   $60,  300: <unknown>
-	//  $120,  600: M.2 SSD
-	//  $300, 1500: Gaming Monitor
-	//
-	// 2026-09-20 adjustment accumulative points to earn
-	//   $10,   50: Rocket League Season Pass
-	//   $30,  200: Key Cap Tester
-	//   $60,  500: <unknown>
-	//  $120, 1100: M.2 SSD
-	//  $300, 2600: Gaming Monitor
+	//   $30,  210: <unknown>
+	//  $160,  690: M.2 SSD
+	//  $300, 1590: Gaming Monitor
 
 	// points earned, symbol mask
 	// tracked | completed | turned in on time | no nagging
@@ -72,20 +58,21 @@ progress {
 	// 1 1 1 0    3 2026-09-15 History Map
 	// 1 1 1 2    5 2026-09-15 Tech Activity 2.13
 	// 1 1 1 2    5 2026-09-16 Chem Nuclear Equations
-	// ------>   27 /* intermadiate total */
-	//
-	//         2026-09-17 Chem Half Life Equations
-	//         2026-09-18 Chem Half Life Lab
+	// 1 1 1 2    5 2026-09-17 Band Scale Assessment
+	// 1 1 1 2    5 2026-09-17 Chem Half Life Equations
+	// 1 - - 0    1 2026-09-16 Indian Removal Stations
+	// ------>   38 /* intermediate total */
 	
+	let progressVal = 38;
+	let progressNext = 120;
+	let progressStr = `${progressVal} of ${progressNext}`;
+
 	const progressBar=document.getElementById("jgh-progress");
-	progressBar.setAttribute("max",50);
-	progressBar.setAttribute("value",27);
+	progressBar.setAttribute("max",progressNext);
+	progressBar.setAttribute("value",progressVal);
 
-	const currProgress=document.getElementById("current-progress");
-	currProgress.innerHTML="<p>27 of 50</p>";
-
-	const nextReinf=document.getElementById("next-target");
-	nextReinf.innerHTML="<p>Rocket League Season Pass</p>";
+	document.getElementById("current-progress").textContent=progressStr;
+	document.getElementById("next-target").textContent="Key Cap Tester";
 </script>
 	</body>
 </html>
