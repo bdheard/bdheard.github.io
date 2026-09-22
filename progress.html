@@ -34,19 +34,6 @@ progress {
 		<p><div id="current-progress"></div></p>
 		<p><div id="next-target"></div></p>
 <script>
-	// values to earn per item $0.33 / point
-	//   $10,  30: Rocket League Season Pass
-	//   $30,  90: Key Cap Tester
-	//   $30,  90: <unknown>
-	//  $160, 480: M.2 SSD
-	//  $300, 900: Gaming Monitor
-	//
-	// accumulative points to earn
-	//   $10,   30: Rocket League Season Pass
-	//   $30,  120: Key Cap Tester
-	//   $30,  210: <unknown>
-	//  $160,  690: M.2 SSD
-	//  $300, 1590: Gaming Monitor
 
 	// points earned, symbol mask
 	// tracked | completed | turned in on time | no nagging | date entered | short description
@@ -65,14 +52,19 @@ progress {
 		[ 1, 1, 1, 0, "2026-09-16", "Indian Removal Stations"  ],
 	];
 
+	// reinforcers listing
+	// dollar value | points required | reinforcer
+	//
+
 	const reinforcers = [
-		[  "$10",   30, "Rocket League Season Pass" ],
-		[  "$30",  120, "Key Cap Tester"            ],
-		[  "$30",  210, "<unknown>"                 ],
-		[ "$160",  690, "M.2 SSD"                   ],
-		[ "$300", 1590, "Gaming Monitor"            ]
+		[  "$10",  30, "Rocket League Season Pass" ],
+		[  "$30",  90, "Key Cap Tester"            ],
+		[  "$30",  90, "<unknown>"                 ],
+		[ "$160", 480, "M.2 SSD"                   ],
+		[ "$300", 900, "Gaming Monitor"            ]
 	];
 
+	// accumulate across all four earnings slots per assignment
 	let progressVal = 0;
 	for (let i=0; i<assignmentListing.length; i++) {
 		for (let j=0; j<4; j++) {
@@ -80,24 +72,30 @@ progress {
 		}
 	}
 	
+	// accumulate total required points to earn a reinforcer
+	// breaking out when it exceeds current progress indicating
+	// that it's the next reinforcer to be earned
 	let progressNext = 0;
-	let reinfStr = "";
+	let reinfIdx = 0;
 	for (let i=0; i<reinforcers.length; i++) {
-		progressNext = reinforcers[i][1];
-		reinfStr = reinforcers[i][2];
+		progressNext += reinforcers[i][1];
+		reinfIdx = i;
 		if (progressNext > progressVal) {
 			break;
 		}
 	}
 
+	// build string for progress
 	let progressStr = `${progressVal} of ${progressNext}`;
 
+	// dynamic assignment to progress meter
 	const progressBar=document.getElementById("jgh-progress");
 	progressBar.setAttribute("max",progressNext);
 	progressBar.setAttribute("value",progressVal);
 
+	// overwrite <div> objects to include strings
 	document.getElementById("current-progress").textContent=progressStr;
-	document.getElementById("next-target").textContent=reinfStr;
+	document.getElementById("next-target").textContent=reinforcers[reinfIdx][2];
 </script>
 	</body>
 </html>
