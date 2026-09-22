@@ -62,7 +62,15 @@ progress {
 		[ 1, 1, 1, 2, "2026-09-16", "Chem Nuclear Equations"   ],
 		[ 1, 1, 1, 2, "2026-09-17", "Band Scale Assessment"    ],
 		[ 1, 1, 1, 2, "2026-09-17", "Chem Half Life Equations" ],
-		[ 1, 1, 1, 0, "2026-09-16", "Indian Removal Stations"  ]
+		[ 1, 1, 1, 0, "2026-09-16", "Indian Removal Stations"  ],
+	];
+
+	const reinforcers = [
+		[  "$10",   30, "Rocket League Season Pass" ],
+		[  "$30",  120, "Key Cap Tester"            ],
+		[  "$30",  210, "<unknown>"                 ],
+		[ "$160",  690, "M.2 SSD"                   ],
+		[ "$300", 1590, "Gaming Monitor"            ]
 	];
 
 	let progressVal = 0;
@@ -72,7 +80,16 @@ progress {
 		}
 	}
 	
-	let progressNext = 120;
+	let progressNext = 0;
+	let reinfStr = "";
+	for (let i=0; i<reinforcers.length; i++) {
+		progressNext = reinforcers[i][1];
+		reinfStr = reinforcers[i][2];
+		if (progressNext > progressVal) {
+			break;
+		}
+	}
+
 	let progressStr = `${progressVal} of ${progressNext}`;
 
 	const progressBar=document.getElementById("jgh-progress");
@@ -80,7 +97,7 @@ progress {
 	progressBar.setAttribute("value",progressVal);
 
 	document.getElementById("current-progress").textContent=progressStr;
-	document.getElementById("next-target").textContent="Key Cap Tester";
+	document.getElementById("next-target").textContent=reinfStr;
 </script>
 	</body>
 </html>
