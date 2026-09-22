@@ -49,21 +49,29 @@ progress {
 	//  $300, 1590: Gaming Monitor
 
 	// points earned, symbol mask
-	// tracked | completed | turned in on time | no nagging
+	// tracked | completed | turned in on time | no nagging | date entered | short description
 	//
-	// 0 1 1 0    2 2026-09-14 History Map
-	// 0 1 1 0    2 2026-09-14 Tech Drawing
-	// 1 1 1 2    5 2026-09-15 History Crash Course
-	// 1 1 1 2    5 2026-09-15 History Unit 2 Vocab
-	// 1 1 1 0    3 2026-09-15 History Map
-	// 1 1 1 2    5 2026-09-15 Tech Activity 2.13
-	// 1 1 1 2    5 2026-09-16 Chem Nuclear Equations
-	// 1 1 1 2    5 2026-09-17 Band Scale Assessment
-	// 1 1 1 2    5 2026-09-17 Chem Half Life Equations
-	// 1 - - 0    1 2026-09-16 Indian Removal Stations
-	// ------>   38 /* intermediate total */
+
+	const assignmentListing = [
+		[ 0, 1, 1, 0, "2026-09-14", "History Map"              ],
+		[ 0, 1, 1, 0, "2026-09-14", "Tech Drawing"             ],
+		[ 1, 1, 1, 2, "2026-09-15", "History Crash Course"     ],
+		[ 1, 1, 1, 2, "2026-09-15", "History Unit 2 Vocab"     ],
+		[ 1, 1, 1, 0, "2026-09-15", "History Map"              ],
+		[ 1, 1, 1, 2, "2026-09-15", "Tech Activity 2.13"       ],
+		[ 1, 1, 1, 2, "2026-09-16", "Chem Nuclear Equations"   ],
+		[ 1, 1, 1, 2, "2026-09-17", "Band Scale Assessment"    ],
+		[ 1, 1, 1, 2, "2026-09-17", "Chem Half Life Equations" ],
+		[ 1, 1, 1, 0, "2026-09-16", "Indian Removal Stations"  ]
+	];
+
+	let progressVal = 0;
+	for (let i=0; i<assignmentListing.length; i++) {
+		for (let j=0; j<4; j++) {
+			progressVal += assignmentListing[i][j];
+		}
+	}
 	
-	let progressVal = 38;
 	let progressNext = 120;
 	let progressStr = `${progressVal} of ${progressNext}`;
 
