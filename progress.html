@@ -52,10 +52,10 @@ progress {
 		[ 1, 1, 1, 0, "2026-09-16", "Indian Removal Stations"  ],
 		[ 1, 1, 1, 2, "2026-09-24", "Chem Electron Configs"    ],
 		[ 1, 1, 1, 2, "2026-09-24", "Band Concert Assessment"  ],
-		[ 1, 0, 0, 0, "2026-09-28", "Tech Onshape"             ],
-		[ 1, 0, 0, 0, "2026-09-28", "History Reformers Proj"   ],
-		[ 1, 0, 0, 0, "2026-09-29", "Tech Onshape"             ],
-		[ 1, 0, 0, 0, "2026-09-29", "History Unit 3 Vocab"     ],
+		[ 1, "", "", "", "2026-09-28", "Tech Onshape"             ],
+		[ 1, "", "", "", "2026-09-28", "History Reformers Proj"   ],
+		[ 1, "", "", "", "2026-09-29", "Tech Onshape"             ],
+		[ 1, "", "", "", "2026-09-29", "History Unit 3 Vocab"     ],
 	];
 
 	// reinforcers listing
@@ -74,7 +74,8 @@ progress {
 	let progressVal = 0;
 	for (let i=0; i<assignmentListing.length; i++) {
 		for (let j=0; j<4; j++) {
-			progressVal += assignmentListing[i][j];
+			if (typeof assignmentListing[i][j] === 'number')
+				progressVal += assignmentListing[i][j];
 		}
 	}
 	
