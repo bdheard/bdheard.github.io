@@ -96,6 +96,25 @@ progress {
 		[ 1, "", "", "", "2026-11-13", "Tech",   "Mouse Trap Car Project"           ]
 	];
 
+  // Beginning 11/8 we talked about adding incentives for getting
+  // to bedroom at a reasonable time; electronic devices outside
+  // of the room
+  //
+  // before 10:00 PM, 3 pts.
+  // before 10:30 PM, 2 pts.
+  // before 11:00 PM, 1 pt.
+  //
+  // Getting a shower, 1 pt.
+
+  // points earned
+  // date | bedtime | shower
+  //
+
+  const bedtimeListing = [
+    [ "", "", "2026-11-08" ]
+  ];
+
+
 	// reinforcers listing
 	// dollar value | points required | reinforcer
 	//
@@ -114,6 +133,14 @@ progress {
 		for (let j=0; j<4; j++) {
 			if (typeof assignmentListing[i][j] === 'number')
 				progressVal += assignmentListing[i][j];
+		}
+	}
+	
+  // accumulate across both earnings slots per bedtime
+	for (let i=0; i<bedtimeListing.length; i++) {
+		for (let j=0; j<2; j++) {
+			if (typeof bedtimeListing[i][j] === 'number')
+				progressVal += bedtimeListing[i][j];
 		}
 	}
 	
