@@ -111,9 +111,24 @@ progress {
   //
 
   const bedtimeListing = [
-    [ "", "", "2026-11-08" ]
+    [ "", "", "template" ],
+    [ 0, 1, "2026-11-08" ],
+    [ "", "", "2026-11-09" ]
   ];
 
+	// Beginning 11/9 we talked about adding incentives for getting
+	// to school on time.  2 points for each successful time
+	//
+
+	// points earned
+	// date | on time
+	//
+
+	const gettingToSchool = [
+		[ "", "template" ],
+		[ 0, "2026-11-09" ],
+		[ "", "2026-11-10" ]
+	];
 
 	// reinforcers listing
 	// dollar value | points required | reinforcer
@@ -141,6 +156,13 @@ progress {
 		for (let j=0; j<2; j++) {
 			if (typeof bedtimeListing[i][j] === 'number')
 				progressVal += bedtimeListing[i][j];
+		}
+	}
+	
+  // accumulate the times at school on time
+	for (let i=0; i<gettingToSchool.length; i++) {
+		if (typeof gettingToSchool[i][0] === 'number')
+			progressVal += gettingToSchool[i][0];
 		}
 	}
 	
