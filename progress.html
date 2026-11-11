@@ -1,100 +1,100 @@
 <html>
-	<head>
-		<title>
-			Joshua's Progress
-		</title>
+  <head>
+    <title>
+      Joshua's Progress
+    </title>
 <style>
 body {
-	margin: 0;
-	padding: 0;
+  margin: 0;
+  padding: 0;
 
-	min-height: 100vh;
+  min-height: 100vh;
 
-	font-family: Tahoma, sans-serif;
-	font-size: 16px;
-	line-height: 1.5;
-	color: #222222;
+  font-family: Tahoma, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #222222;
 
-	background-color: #6688ff;
+  background-color: #6688ff;
 
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 progress {
-	appearance: none;
-	width: 80%;
-	height: 30px;
+  appearance: none;
+  width: 80%;
+  height: 30px;
 }
 </style>
-	</head>
-	<body>
-		<p><div id="next-target"></div></p>
-		<progress id="jgh-progress"></progress>
-		<p><div id="current-progress"></div></p>
+  </head>
+  <body>
+    <p><div id="next-target"></div></p>
+    <progress id="jgh-progress"></progress>
+    <p><div id="current-progress"></div></p>
 <script>
 
-	// points earned, symbol mask
-	// tracked | completed | turned in on time | no nagging | due date | short description
-	//
+  // points earned, symbol mask
+  // tracked | completed | turned in on time | no nagging | due date | short description
+  //
 
-	const assignmentListing = [
-		[ 0, 1, 1, 0, "2026-09-14", "History",   "Map"                           ],
-		[ 0, 1, 1, 0, "2026-09-14", "Tech",      "Drawing"                       ],
-		[ 1, 1, 1, 2, "2026-09-15", "History",   "Crash Course"                  ],
-		[ 1, 1, 1, 2, "2026-09-15", "History",   "Unit 2 Vocab"                  ],
-		[ 1, 1, 1, 0, "2026-09-15", "History",   "Map"                           ],
-		[ 1, 1, 1, 2, "2026-09-15", "Tech",      "Activity 2.13"                 ],
-		[ 1, 1, 1, 2, "2026-09-16", "Chemistry", "Nuclear Equations"             ],
-		[ 1, 1, 1, 2, "2026-09-17", "Band",      "Scale Assessment"              ],
-		[ 1, 1, 1, 2, "2026-09-17", "Chemistry", "Half Life Equations"           ],
-		[ 1, 1, 1, 0, "2026-09-16", "History",   "Indian Removal Stations"       ],
-		[ 1, 1, 1, 2, "2026-09-24", "Chemistry", "Electron Configs"              ],
-		[ 1, 1, 1, 2, "2026-09-24", "Band",      "Concert Assessment"            ],
-		[ 1, 1, 1, 2, "2026-09-28", "Tech",      "Onshape"                       ],
-		[ 1, 1, 1, 0, "2026-09-28", "History",   "Reformers Proj"                ],
-		[ 1, 1, 1, 0, "2026-09-28", "Chemistry", "Hog Hilton"                    ],
-		[ 1, 1, 1, 0, "2026-09-28", "History",   "Slave Narative"                ],
-		[ 1, 1, 1, 2, "2026-09-29", "Tech",      "Onshape"                       ],
-		[ 1, 1, 1, 2, "2026-09-29", "History",   "Unit 3 Vocab"                  ],
-		[ 1, 1, 1, 2, "2026-09-30", "History",   "Civil War Strategies"          ],
-		[ 1, 1, 1, 2, "2026-10-01", "Tech",      "Onshape"                       ],
-		[ 1, 1, 1, 2, "2026-09-30", "History",   "Gettysburg Questions"          ],
-		[ 1, 1, 1, 2, "2026-10-01", "Band",      "Scale Assessment"              ],
-		[ 1, 1, 1, 2, "2026-10-01", "Chemistry", "Study Guide"                   ],
-		[ 1, 1, 1, 2, "2026-10-01", "Chemistry", "Packet"                        ],
-		[ 1, 1, 1, 0, "2026-10-02", "History",   "Civil War Causes"              ],
-		[ 1, 1, 0, 0, "2026-10-02", "History",   "Civil War Letters"             ],
-		[ 1, 1, 1, 0, "2026-10-02", "Chemistry", "Gizmo"                         ],
-		[ 1, 1, 1, 2, "2026-10-04", "Tech",      "Background Research"           ],
-		[ 1, 1, 1, 0, "2026-10-05", "History",   "Reconstruction Image Analysis" ],
-		[ 1, 1, 1, 2, "2026-10-06", "History",   "Civil War Events"              ],
-		[ 1, 1, 1, 2, "2026-10-06", "Chemistry", "Lewis Structures"              ],
-		[ 1, 1, 1, 2, "2026-10-06", "History",   "Reconstruction Plans"          ],
-		[ 1, 1, 1, 2, "2026-10-07", "Tech",      "Solution Template"             ],
-		[ 1, 1, 1, 2, "2026-10-07", "History",   "Reconstruction Video"          ],
-		[ 1, 1, 1, 2, "2026-10-12", "Tech",      "Project"                       ],
-		[ 1, 1, 1, 2, "2026-10-14", "History",   "TransCons Railroad"            ],
-		[ 1, 1, 1, 2, "2026-10-14", "History",   "Unit 4 Vocab"                  ],
-		[ 1, 1, 1, 2, "2026-10-14", "History",   "Gilded Age Image Analysis"     ],
-		[ 1, 1, 1, 2, "2026-10-14", "History",   "Homestead Questions"           ],
-		[ 1, 1, 1, 2, "2026-10-19", "History",   "Gilded Age Instragram"         ],
-		[ 1, 1, 1, 2, "2026-10-20", "History",   "Gilded Age Immigration"        ],
-		[ 1, 1, 1, 2, "2026-10-20", "Tech",      "Simple Machines Sketch"        ],
-		[ 1, 1, 1, 2, "2026-10-21", "History",   "Intro to Progressivism"        ],
-		[ 1, 1, 1, 2, "2026-10-22", "History",   "Compare Washington Dubois"     ],
-		[ 1, 1, 1, 2, "2026-10-22", "Band",      "Scale Assessment 4"            ],
-		[ 1, 1, 1, 2, "2026-10-23", "Tech",      "Simple Machines Onshape"       ],
-		[ 1, 1, 1, 2, "2026-10-28", "History",   "Unit 5 Vocab"                  ],
-		[ 1, 1, "", 2, "2026-10-29", "Band",      "Concert Assessment 4"          ],
-		[ 1, "", "", "", "2026-11-04", "History",   "WWI: Life ar War"         ],
-		[ 1, "", "", "", "2026-11-04", "History",   "WWI Propaganda"         ],
-		[ 1, "", "", "", "2026-11-05", "Band",   "Scale Assessment 5"         ],
-		[ 1, 1, 1, 2, "2026-11-05", "Tech",      "Compound Machine Project"         ],
-		[ 1, "", "", "", "2026-11-09", "History",   "Unit 6 Vocab"         ],
-		[ 1, "", "", "", "2026-11-13", "Tech",   "Mouse Trap Car Project"           ]
-	];
+  const assignmentListing = [
+    [ 0, 1, 1, 0, "2026-09-14", "History",   "Map"                           ],
+    [ 0, 1, 1, 0, "2026-09-14", "Tech",      "Drawing"                       ],
+    [ 1, 1, 1, 2, "2026-09-15", "History",   "Crash Course"                  ],
+    [ 1, 1, 1, 2, "2026-09-15", "History",   "Unit 2 Vocab"                  ],
+    [ 1, 1, 1, 0, "2026-09-15", "History",   "Map"                           ],
+    [ 1, 1, 1, 2, "2026-09-15", "Tech",      "Activity 2.13"                 ],
+    [ 1, 1, 1, 2, "2026-09-16", "Chemistry", "Nuclear Equations"             ],
+    [ 1, 1, 1, 2, "2026-09-17", "Band",      "Scale Assessment"              ],
+    [ 1, 1, 1, 2, "2026-09-17", "Chemistry", "Half Life Equations"           ],
+    [ 1, 1, 1, 0, "2026-09-16", "History",   "Indian Removal Stations"       ],
+    [ 1, 1, 1, 2, "2026-09-24", "Chemistry", "Electron Configs"              ],
+    [ 1, 1, 1, 2, "2026-09-24", "Band",      "Concert Assessment"            ],
+    [ 1, 1, 1, 2, "2026-09-28", "Tech",      "Onshape"                       ],
+    [ 1, 1, 1, 0, "2026-09-28", "History",   "Reformers Proj"                ],
+    [ 1, 1, 1, 0, "2026-09-28", "Chemistry", "Hog Hilton"                    ],
+    [ 1, 1, 1, 0, "2026-09-28", "History",   "Slave Narative"                ],
+    [ 1, 1, 1, 2, "2026-09-29", "Tech",      "Onshape"                       ],
+    [ 1, 1, 1, 2, "2026-09-29", "History",   "Unit 3 Vocab"                  ],
+    [ 1, 1, 1, 2, "2026-09-30", "History",   "Civil War Strategies"          ],
+    [ 1, 1, 1, 2, "2026-10-01", "Tech",      "Onshape"                       ],
+    [ 1, 1, 1, 2, "2026-09-30", "History",   "Gettysburg Questions"          ],
+    [ 1, 1, 1, 2, "2026-10-01", "Band",      "Scale Assessment"              ],
+    [ 1, 1, 1, 2, "2026-10-01", "Chemistry", "Study Guide"                   ],
+    [ 1, 1, 1, 2, "2026-10-01", "Chemistry", "Packet"                        ],
+    [ 1, 1, 1, 0, "2026-10-02", "History",   "Civil War Causes"              ],
+    [ 1, 1, 0, 0, "2026-10-02", "History",   "Civil War Letters"             ],
+    [ 1, 1, 1, 0, "2026-10-02", "Chemistry", "Gizmo"                         ],
+    [ 1, 1, 1, 2, "2026-10-04", "Tech",      "Background Research"           ],
+    [ 1, 1, 1, 0, "2026-10-05", "History",   "Reconstruction Image Analysis" ],
+    [ 1, 1, 1, 2, "2026-10-06", "History",   "Civil War Events"              ],
+    [ 1, 1, 1, 2, "2026-10-06", "Chemistry", "Lewis Structures"              ],
+    [ 1, 1, 1, 2, "2026-10-06", "History",   "Reconstruction Plans"          ],
+    [ 1, 1, 1, 2, "2026-10-07", "Tech",      "Solution Template"             ],
+    [ 1, 1, 1, 2, "2026-10-07", "History",   "Reconstruction Video"          ],
+    [ 1, 1, 1, 2, "2026-10-12", "Tech",      "Project"                       ],
+    [ 1, 1, 1, 2, "2026-10-14", "History",   "TransCons Railroad"            ],
+    [ 1, 1, 1, 2, "2026-10-14", "History",   "Unit 4 Vocab"                  ],
+    [ 1, 1, 1, 2, "2026-10-14", "History",   "Gilded Age Image Analysis"     ],
+    [ 1, 1, 1, 2, "2026-10-14", "History",   "Homestead Questions"           ],
+    [ 1, 1, 1, 2, "2026-10-19", "History",   "Gilded Age Instragram"         ],
+    [ 1, 1, 1, 2, "2026-10-20", "History",   "Gilded Age Immigration"        ],
+    [ 1, 1, 1, 2, "2026-10-20", "Tech",      "Simple Machines Sketch"        ],
+    [ 1, 1, 1, 2, "2026-10-21", "History",   "Intro to Progressivism"        ],
+    [ 1, 1, 1, 2, "2026-10-22", "History",   "Compare Washington Dubois"     ],
+    [ 1, 1, 1, 2, "2026-10-22", "Band",      "Scale Assessment 4"            ],
+    [ 1, 1, 1, 2, "2026-10-23", "Tech",      "Simple Machines Onshape"       ],
+    [ 1, 1, 1, 2, "2026-10-28", "History",   "Unit 5 Vocab"                  ],
+    [ 1, 1, "", 2, "2026-10-29", "Band",      "Concert Assessment 4"          ],
+    [ 1, 1, 1, 2, "2026-11-04", "History",   "WWI: Life ar War"              ],
+    [ 1, 1, 1, 2, "2026-11-04", "History",   "WWI Propaganda"                ],
+    [ 1, 1, 1, 2, "2026-11-05", "Band",      "Scale Assessment 5"            ],
+    [ 1, 1, 1, 2, "2026-11-05", "Tech",      "Compound Machine Project"      ],
+    [ 1, 1, 1, 2, "2026-11-09", "History",   "Unit 6 Vocab"                  ],
+    [ 1, "", "", "", "2026-11-13", "Tech",   "Mouse Trap Car Project"           ]
+  ];
 
   // Beginning 11/8 we talked about adding incentives for getting
   // to bedroom at a reasonable time; electronic devices outside
@@ -113,82 +113,84 @@ progress {
   const bedtimeListing = [
     [ "", "", "template" ],
     [ 0, 1, "2026-11-08" ],
-    [ "", "", "2026-11-09" ]
+    [ 1, 0, "2026-11-09" ],
+    [ "", "", "2026-11-10" ]
   ];
 
-	// Beginning 11/9 we talked about adding incentives for getting
-	// to school on time.  2 points for each successful time
-	//
+  // Beginning 11/9 we talked about adding incentives for getting
+  // to school on time.  2 points for each successful time
+  //
 
-	// points earned
-	// date | on time
-	//
+  // points earned
+  // date | on time
+  //
 
-	const gettingToSchool = [
-		[ "", "template" ],
-		[ 0, "2026-11-09" ],
-		[ "", "2026-11-10" ]
-	];
+  const gettingToSchool = [
+    [ "", "template" ],
+    [ 0, "2026-11-09" ],
+    [ 0, "2026-11-10" ],
+    [ 0, "2026-11-11" ]
+  ];
 
-	// reinforcers listing
-	// dollar value | points required | reinforcer
-	//
+  // reinforcers listing
+  // dollar value | points required | reinforcer
+  //
 
-	const reinforcers = [
-		[  "$10",  30, "Rocket League Season Pass" ],
-		[  "$30",  90, "Key Cap Tester"            ],
-		[  "$30",  90, "<unknown>"                 ],
-		[ "$160", 480, "M.2 SSD"                   ],
-		[ "$300", 900, "Gaming Monitor"            ]
-	];
+  const reinforcers = [
+    [  "$10",  30, "Rocket League Season Pass" ],
+    [  "$30",  90, "Key Cap Tester"            ],
+    [  "$30",  90, "<unknown>"                 ],
+    [ "$160", 480, "M.2 SSD"                   ],
+    [ "$300", 900, "Gaming Monitor"            ]
+  ];
 
-	// accumulate across all four earnings slots per assignment
-	let progressVal = 0;
-	for (let i=0; i<assignmentListing.length; i++) {
-		for (let j=0; j<4; j++) {
-			if (typeof assignmentListing[i][j] === 'number')
-				progressVal += assignmentListing[i][j];
-		}
-	}
-	
+  // accumulate across all four earnings slots per assignment
+  let progressVal = 0;
+  for (let i=0; i<assignmentListing.length; i++) {
+    for (let j=0; j<4; j++) {
+      if (typeof assignmentListing[i][j] === 'number')
+        progressVal += assignmentListing[i][j];
+    }
+  }
+  
   // accumulate across both earnings slots per bedtime
-	for (let i=0; i<bedtimeListing.length; i++) {
-		for (let j=0; j<2; j++) {
-			if (typeof bedtimeListing[i][j] === 'number')
-				progressVal += bedtimeListing[i][j];
-		}
-	}
-	
+  for (let i=0; i<bedtimeListing.length; i++) {
+    for (let j=0; j<2; j++) {
+      if (typeof bedtimeListing[i][j] === 'number')
+        progressVal += bedtimeListing[i][j];
+    }
+  }
+  
   // accumulate the times at school on time
-	for (let i=0; i<gettingToSchool.length; i++) {
-		if (typeof gettingToSchool[i][0] === 'number')
-			progressVal += gettingToSchool[i][0];
-	}
-	
-	// accumulate total required points to earn a reinforcer
-	// breaking out when it exceeds current progress indicating
-	// that it's the next reinforcer to be earned
-	let progressNext = 0;
-	let reinfIdx = 0;
-	for (let i=0; i<reinforcers.length; i++) {
-		progressNext += reinforcers[i][1];
-		reinfIdx = i;
-		if (progressNext > progressVal) {
-			break;
-		}
-	}
+  for (let i=0; i<gettingToSchool.length; i++) {
+    if (typeof gettingToSchool[i][0] === 'number')
+      progressVal += gettingToSchool[i][0];
+  }
+  
+  // accumulate total required points to earn a reinforcer
+  // breaking out when it exceeds current progress indicating
+  // that it's the next reinforcer to be earned
+  let progressNext = 0;
+  let reinfIdx = 0;
+  for (let i=0; i<reinforcers.length; i++) {
+    progressNext += reinforcers[i][1];
+    reinfIdx = i;
+    if (progressNext > progressVal) {
+      break;
+    }
+  }
 
-	// build string for progress
-	let progressStr = `${progressVal} of ${progressNext}`;
+  // build string for progress
+  let progressStr = `${progressVal} of ${progressNext}`;
 
-	// dynamic assignment to progress meter
-	const progressBar=document.getElementById("jgh-progress");
-	progressBar.setAttribute("max",progressNext);
-	progressBar.setAttribute("value",progressVal);
+  // dynamic assignment to progress meter
+  const progressBar=document.getElementById("jgh-progress");
+  progressBar.setAttribute("max",progressNext);
+  progressBar.setAttribute("value",progressVal);
 
-	// overwrite <div> objects to include strings
-	document.getElementById("current-progress").textContent=progressStr;
-	document.getElementById("next-target").textContent=reinforcers[reinfIdx][2];
+  // overwrite <div> objects to include strings
+  document.getElementById("current-progress").textContent=progressStr;
+  document.getElementById("next-target").textContent=reinforcers[reinfIdx][2];
 </script>
-	</body>
+  </body>
 </html>
