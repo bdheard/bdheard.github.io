@@ -1,38 +1,240 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>
       Joshua's Progress
     </title>
 <style>
+:root {
+  color-scheme: light;
+  --slate-blue: #6a5acd;
+  --ink: #29263f;
+  --muted: #625e78;
+  --line: #dedbeb;
+}
+* { box-sizing: border-box; }
 body {
   margin: 0;
-  padding: 0;
-
   min-height: 100vh;
-
+  padding: 40px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-family: Tahoma, sans-serif;
   font-size: 16px;
   line-height: 1.5;
-  color: #222222;
-
-  background-color: #6688ff;
-
+  color: var(--ink);
+  background: radial-gradient(ellipse at top, #e1dcf6, #f3f1f8 65%);
+}
+main {
+  width: 100%;
+  max-width: 640px;
+  padding: 30px;
+  border: 1px solid #fff;
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 18px 60px #32285a14;
+}
+p, h1, h2 { margin: 0; }
+.page-header {
   display: flex;
-  justify-content: center;
   align-items: center;
-  flex-direction: column;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.eyebrow {
+  font-size: 0.6875rem;
+  font-weight: bold;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.page-header .eyebrow { color: #5747b3; }
+h1 {
+  margin-top: 5px;
+  font-size: clamp(1.35rem, 5vw, 1.75rem);
+  letter-spacing: -0.035em;
+}
+.total {
+  padding: 9px 14px;
+  border-radius: 14px;
+  color: #51429d;
+  background: #f0edf9;
+  font-size: 0.6875rem;
+}
+.total strong {
+  display: block;
+  font-size: 1.5rem;
+  line-height: 1.15;
+  font-variant-numeric: tabular-nums;
+}
+.goal {
+  padding: 26px;
+  border-radius: 18px;
+  color: #fff;
+  background: linear-gradient(125deg, #39315f, #53458b);
+}
+.goal .eyebrow { color: #ded8ff; }
+#next-target {
+  margin: 8px 0 22px;
+  font-size: clamp(1.35rem, 5vw, 1.8rem);
+  line-height: 1.25;
+  overflow-wrap: anywhere;
 }
 progress {
+  display: block;
   appearance: none;
-  width: 80%;
+  border: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  width: 100%;
+  height: 16px;
+  background: #29233f;
+  color: #c4b8ff;
+  animation: reveal-progress 800ms ease-out both;
+}
+progress::-webkit-progress-bar {
+  border-radius: 20px;
+  background: #29233f;
+}
+progress::-webkit-progress-value {
+  border-radius: 20px;
+  background: linear-gradient(90deg, #a397ed, #d5ccff);
+}
+progress::-moz-progress-bar {
+  border-radius: 20px;
+  background: linear-gradient(90deg, #a397ed, #d5ccff);
+}
+.progress-details {
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  font-size: 0.8125rem;
+  color: #e5e0fa;
+}
+#current-progress { font-variant-numeric: tabular-nums; }
+#points-remaining { font-weight: bold; }
+.rewards-heading {
+  margin: 28px 0 14px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+}
+.rewards-heading h2 { font-size: 1rem; }
+#reward-summary { color: var(--muted); font-size: 0.75rem; }
+.reward-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+.reward {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+.marker {
+  display: grid;
+  place-items: center;
+  flex: 0 0 30px;
   height: 30px;
+  border: 1px solid #c8c3d9;
+  border-radius: 50%;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+.reward-copy { flex: 1; min-width: 0; }
+.reward-name {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: bold;
+  overflow-wrap: anywhere;
+}
+.reward-status { font-size: 0.6875rem; color: var(--muted); }
+.reward-points {
+  flex-shrink: 0;
+  text-align: right;
+  font-size: 0.8125rem;
+  font-variant-numeric: tabular-nums;
+}
+.reward-cost { display: block; font-size: 0.6875rem; color: var(--muted); }
+.earned { background: #faf9fc; }
+.earned .reward-name { color: var(--muted); text-decoration-thickness: 1px; }
+.earned .marker { color: #51429d; background: #eeebf7; border-color: #eeebf7; }
+.earned .marker::before { content: "\2713"; font-size: 1rem; }
+.current {
+  border-color: var(--slate-blue);
+  background: #f2effc;
+  box-shadow: inset 3px 0 var(--slate-blue);
+}
+.current .marker { color: #fff; background: var(--slate-blue); border-color: var(--slate-blue); }
+.current .reward-status { color: #51429d; font-weight: bold; }
+.footer {
+  margin-top: 22px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.75rem;
+}
+[hidden] { display: none !important; }
+@keyframes reveal-progress {
+  from { opacity: 0.35; }
+  to { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  progress { animation: none; }
+}
+@media (max-width: 420px) {
+  body { padding: 16px 10px; }
+  main { padding: 20px 14px; border-radius: 18px; }
+  .goal { padding: 20px; }
+  .reward { gap: 9px; padding: 12px 10px; flex-wrap: wrap; }
+  .reward-copy { flex-basis: calc(100% - 39px); }
+  .reward-points { margin-left: 39px; text-align: left; }
+  .reward-cost { display: inline; margin-left: 8px; }
 }
 </style>
   </head>
   <body>
-    <p><div id="next-target"></div></p>
-    <progress id="jgh-progress"></progress>
-    <p><div id="current-progress"></div></p>
+    <main>
+      <header class="page-header">
+        <div>
+          <p class="eyebrow">One step at a time</p>
+          <h1>Joshua's progress</h1>
+        </div>
+        <p class="total"><strong id="total-points">0</strong>lifetime points</p>
+      </header>
+      <section class="goal" aria-labelledby="next-target">
+        <p class="eyebrow" id="goal-caption">Next reward</p>
+        <h2 id="next-target">Your next goal awaits</h2>
+        <progress id="jgh-progress" max="1" value="0"
+          aria-labelledby="goal-caption next-target"
+          aria-describedby="current-progress points-remaining"></progress>
+        <div class="progress-details">
+          <p id="current-progress"></p>
+          <p id="points-remaining"></p>
+        </div>
+      </section>
+      <section aria-labelledby="rewards-title">
+        <div class="rewards-heading">
+          <h2 id="rewards-title">Your rewards</h2>
+          <p id="reward-summary"></p>
+        </div>
+        <ol class="reward-list" id="reward-list"></ol>
+      </section>
+      <p class="footer">Every point is a step forward.</p>
+      <noscript><p>Enable JavaScript to calculate your points and display your rewards.</p></noscript>
+    </main>
 <script>
 
   // points earned, symbol mask
@@ -199,30 +401,74 @@ progress {
       progressVal += gettingToSchool[i][0];
   }
   
-  // accumulate total required points to earn a reinforcer
-  // breaking out when it exceeds current progress indicating
-  // that it's the next reinforcer to be earned
-  let progressNext = 0;
-  let reinfIdx = 0;
-  for (let i=0; i<reinforcers.length; i++) {
-    progressNext += reinforcers[i][1];
-    reinfIdx = i;
-    if (progressNext > progressVal) {
-      break;
-    }
+  function renderProgress(total, rewards = reinforcers) {
+    const format = value => value.toLocaleString("en-US");
+    let threshold = 0;
+    const milestones = rewards.map(reward => {
+      threshold += reward[1];
+      return { name: reward[2], cost: reward[1], threshold, earned: total >= threshold };
+    });
+    const next = milestones.find(reward => !reward.earned);
+    const earnedCount = milestones.filter(reward => reward.earned).length;
+    const progressBar = document.getElementById("jgh-progress");
+    const counter = document.getElementById("current-progress");
+    const list = document.getElementById("reward-list");
+    const hasRewards = milestones.length > 0;
+    const target = next ? next.threshold : threshold;
+
+    document.getElementById("total-points").textContent = format(total);
+    document.getElementById("goal-caption").textContent =
+      !hasRewards ? "Your progress" : next ? "Next reward" : "Every milestone reached";
+    document.getElementById("next-target").textContent =
+      !hasRewards ? "No rewards configured" : next ? next.name : "All rewards earned";
+    document.getElementById("points-remaining").textContent =
+      !hasRewards ? "" : next ? `${format(next.threshold - total)} points to go` : "You did it!";
+    document.getElementById("reward-summary").textContent =
+      hasRewards ? `${earnedCount} of ${milestones.length} earned` : "Add a reward to start your journey.";
+    progressBar.hidden = !hasRewards;
+    counter.hidden = !hasRewards;
+    progressBar.max = hasRewards ? target : 1;
+    progressBar.value = hasRewards ? Math.min(total, target) : 0;
+    progressBar.setAttribute("aria-valuetext", next
+      ? `${format(total)} of ${format(target)} lifetime points toward ${next.name}`
+      : `${format(total)} lifetime points; ${hasRewards ? "all rewards earned" : "no rewards configured"}`);
+    counter.textContent = hasRewards ? `${format(total)} of ${format(target)} total points` : "";
+    list.replaceChildren();
+
+    milestones.forEach((reward, index) => {
+      const current = reward === next;
+      const row = document.createElement("li");
+      row.className = `reward ${reward.earned ? "earned" : current ? "current" : "upcoming"}`;
+      if (current) row.setAttribute("aria-current", "step");
+
+      const marker = document.createElement("span");
+      marker.className = "marker";
+      marker.setAttribute("aria-hidden", "true");
+      marker.textContent = reward.earned ? "" : index + 1;
+
+      const copy = document.createElement("div");
+      copy.className = "reward-copy";
+      const name = document.createElement(reward.earned ? "del" : "span");
+      name.className = "reward-name";
+      name.textContent = reward.name;
+      const status = document.createElement("span");
+      status.className = "reward-status";
+      status.textContent = reward.earned ? "Earned" : current ? "Current goal" : "Upcoming";
+      copy.append(name, status);
+
+      const points = document.createElement("p");
+      points.className = "reward-points";
+      points.textContent = `${format(reward.threshold)} total pts`;
+      const cost = document.createElement("span");
+      cost.className = "reward-cost";
+      cost.textContent = `+${format(reward.cost)} points`;
+      points.append(cost);
+      row.append(marker, copy, points);
+      list.append(row);
+    });
   }
 
-  // build string for progress
-  let progressStr = `${progressVal} of ${progressNext}`;
-
-  // dynamic assignment to progress meter
-  const progressBar=document.getElementById("jgh-progress");
-  progressBar.setAttribute("max",progressNext);
-  progressBar.setAttribute("value",progressVal);
-
-  // overwrite <div> objects to include strings
-  document.getElementById("current-progress").textContent=progressStr;
-  document.getElementById("next-target").textContent=reinforcers[reinfIdx][2];
+  renderProgress(progressVal);
 </script>
   </body>
 </html>
